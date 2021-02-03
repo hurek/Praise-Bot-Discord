@@ -9,7 +9,7 @@ from src.configs import TOKEN
 from src.messages import MESSAGE
 
 bot = commands.Bot(command_prefix='!')
-logging.basicConfig(filename='example.log', level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s',)
+logging.basicConfig(filename='praise.log', level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s',)
 
 def get_creds():
     # To obtain a service account JSON file, follow these steps:
@@ -83,6 +83,14 @@ async def send_notification(server_id, user):
 
 
 @commands.has_any_role('Praise Giver')
+@bot.command(name='praise_log')
+async def log(ctx):
+    user = bot.get_user(ctx.message.author.id)
+    with open("praise.log", "rb") as file:
+        await user.send("Praise log is:", file=discord.File(file, "praise_log.txt"))
+
+
+@commands.has_any_role('Praise Giver')
 @bot.command(name='praise')
 async def send(ctx, *content: commands.clean_content(use_nicknames=False)):
     author = ctx.message.author.name
@@ -91,7 +99,7 @@ async def send(ctx, *content: commands.clean_content(use_nicknames=False)):
     channel = ctx.message.channel.name
     now = date.today().strftime("%b-%d-%Y")
 
-    logging.info('Trying to dish Praise. admin={}, server={}, channel='.format(author, server, channel))
+    logging.info('Trying to dish Praise. admin={}, server={}, channel={}'.format(author, server, channel))
     if not (persons := await parse_persons(ctx.message.mentions)):
         logging.warning('Users not specified')
         await ctx.send(ctx.message.author.mention + " Specify the user")
