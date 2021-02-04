@@ -5,7 +5,7 @@ MESSAGE = {
     776352358832930816: {
         'title': "Congratulations! You've been dished Praise!",
         'description': "Your contribution to the Commons Stack has been recognized [in our Discord Server]"
-                       "(https://discord.gg/kwnzuYJfuM). This Praise can give you reputation in our Trusted Seed.\n\n"
+                       "(https://discord.gg/uGYfNj9mbh). This Praise can give you reputation in our Trusted Seed.\n\n"
                        "To be eligible, you must be a member of the Commons Stack Trusted Seed. To apply, fill out "
                        "the form [here](https://commonsstack.org/apply). Once you are accepted we will be sending you "
                        "CSTK tokens on the address you mention in the form. If you already applied, no need to do this "
@@ -21,7 +21,7 @@ MESSAGE = {
     701149241107808327: {
         'title': "Congratulations! You've been dished Praise!",
         'description': "Your contribution to the Token Engineering community has been recognized [in our Discord "
-                       "Server](https://discord.gg/S5ktj4mtSy). This Praise will become TE Commons Impact Hours "
+                       "Server](https://discord.gg/s9G2Wzv8gk). This Praise will become TE Commons Impact Hours "
                        "representing your impact on the Cultural Build, and TEC Impact Hours will become TEC Tokens "
                        "once the TE Commons Hatches!\n\nYou can learn more about Impact Hours on our [Medium Post "
                        "about it](https://medium.com/token-engineering-commons/how-to-earn-tec-tokens-now-an-inside-"
@@ -37,7 +37,7 @@ MESSAGE = {
     776352494992883722: {
         'title': "Congratulations! You've been dished Praise!",
         'description': "Your contribution to the Token Engineering community has been recognized [in our Discord "
-                       "Server](https://discord.gg/xbh28e2G). This Praise will become TE Commons Impact Hours "
+                       "Server](https://discord.gg/cBnSkCAXAb). This Praise will become TE Commons Impact Hours "
                        "representing your impact on the Cultural Build, and TEC Impact Hours will become TEC Tokens "
                        "once the TE Commons Hatches!\n\nYou can learn more about Impact Hours on our [Medium Post "
                        "about it](https://medium.com/token-engineering-commons/how-to-earn-tec-tokens-now-an-inside-"
