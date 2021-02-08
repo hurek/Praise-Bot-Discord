@@ -6,7 +6,7 @@ from discord.ext import commands
 import discord
 
 from src.configs import TOKEN
-from src.messages import MESSAGE_DATA, createEmbed
+from src.messages import createEmbed
 
 bot = commands.Bot(command_prefix='!')
 logging.basicConfig(filename='praise.log', level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s',)
@@ -110,7 +110,7 @@ async def send(ctx, *content: commands.clean_content(use_nicknames=False)):
             logging.info('Trying to upload praise data. User={}, reason={}, server={}, channel={}, admin={}'.format(
                 username, reason, server, channel, author))
             await upload_praise(agcm, username, author, reason, now, server, channel)
-            logging.info('Praise date uploaded for user={}'.format(username))
+            logging.info('Praise data uploaded for user={}'.format(username))
             users.append(bot.get_user(user_id))
         except Exception as e:
             logging.warning('Failed to upload Praise data for user={}. Exception:{}'.format(username, e))

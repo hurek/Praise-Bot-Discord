@@ -14,7 +14,7 @@ MESSAGE_DATA = {
                        "n-of-the-commons-stack-trusted-seed-931978625c61)\n**Thank you** for supporting the Commons "
                        "Stack!",
         'color': 0x00FA9A,
-        'file': discord.File('./img/theCommonsStack.png', filename='footer.png')
+        'file': './img/theCommonsStack.png',
     },
 
     # Token Engineering
@@ -30,7 +30,7 @@ MESSAGE_DATA = {
                        "-stack-trusted-seed-931978625c61).\n\n"
                        "**Thank you** for supporting Token Engineering!",
         'color': 0x696969,
-        'file': discord.File('./img/te.jpg', filename='footer.png'),
+        'file': './img/te.jpg',
     },
 
     # Token Engineering Commons
@@ -46,7 +46,7 @@ MESSAGE_DATA = {
                        "-stack-trusted-seed-931978625c61).\n\n"
                        "**Thank you** for supporting Token Engineering!",
         'color': 0xd0e429,
-        'file': discord.File('./img/TEC.png', filename='footer.png'),
+        'file': './img/TEC.png',
     },
 
     # cadCad
@@ -61,7 +61,7 @@ MESSAGE_DATA = {
                        "ticle](https://medium.com/commonsstack/cstk-the-token-of-the-commons-stack-trusted-seed-931978"
                        "625c61).\n\n**Thank you** for supporting cadCAD and the emerging field of Token Engineering!",
         'color': 0x000080,
-        'file': discord.File('./img/cadCad.png', filename='footer.png'),
+        'file': './img/cadCad.png',
     },
 
     # Bot Training Ground
