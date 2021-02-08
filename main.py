@@ -11,6 +11,7 @@ from src.messages import createEmbed
 bot = commands.Bot(command_prefix='!')
 logging.basicConfig(filename='praise.log', level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s',)
 
+
 def get_creds():
     # To obtain a service account JSON file, follow these steps:
     # https://gspread.readthedocs.io/en/latest/oauth2.html#for-bots-using-service-account
@@ -61,9 +62,9 @@ async def parse_persons(mentions):
 
 
 async def send_notification(server_id, users):
-    message_data = createEmbed(server_id)
     try:
         for user in users:
+            message_data = createEmbed(server_id)
             logging.info('Trying to send notification to userId:{}, server:{}'.format(user.id, server_id))
             await user.send(embed=message_data['embed'], file=message_data['file'])
             logging.info('Notification sended to userId:{}, server:{}'.format(user.id, server_id))
