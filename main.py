@@ -15,7 +15,7 @@ def get_creds():
     # To obtain a service account JSON file, follow these steps:
     # https://gspread.readthedocs.io/en/latest/oauth2.html#for-bots-using-service-account
     return ServiceAccountCredentials.from_json_keyfile_name(
-        "src/creds.json",
+        "src/admin_creds.json",
         [
             "https://spreadsheets.google.com/feeds",
             "https://www.googleapis.com/auth/drive",
@@ -31,13 +31,10 @@ agcm = gspread_asyncio.AsyncioGspreadClientManager(get_creds)
 async def upload_praise(agcm, praise_to, praise_from, reason, date, server, chat):
     agc = await agcm.authorize()
 
-    ss = await agc.open("Praise sheet")
+    ss = await agc.open("Discord Praise Bot Sheet")
     print("Spreadsheet URL: https://docs.google.com/spreadsheets/d/{0}".format(ss.id))
-    print("Open the URL in your browser to see gspread_asyncio in action!")
-
     zero_ws = await ss.get_worksheet(0)
     await zero_ws.append_row([praise_to, praise_from, reason, server, date, chat])
-    print("All done!")
 
 
 # Parse the reason of praise

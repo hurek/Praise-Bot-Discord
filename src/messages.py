@@ -77,7 +77,6 @@ MESSAGE_DATA = {
                        "n-of-the-commons-stack-trusted-seed-931978625c61)\n**Thank you** for supporting the Commons "
                        "Stack!",
         'color': 0x00FA9A,
-        # 'file': discord.File('./img/theCommonsStack.png', filename='footer.png'),
         'file': './img/theCommonsStack.png'
     },
 }
