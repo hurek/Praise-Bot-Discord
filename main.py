@@ -6,7 +6,7 @@ from discord.ext import commands
 import discord
 
 from src.configs import TOKEN
-from src.messages import MESSAGE
+from src.messages import MESSAGE_DATA, createEmbed
 
 bot = commands.Bot(command_prefix='!')
 logging.basicConfig(filename='praise.log', level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s',)
@@ -15,7 +15,7 @@ def get_creds():
     # To obtain a service account JSON file, follow these steps:
     # https://gspread.readthedocs.io/en/latest/oauth2.html#for-bots-using-service-account
     return ServiceAccountCredentials.from_json_keyfile_name(
-        "src/admin_creds.json",
+        "src/creds.json",
         [
             "https://spreadsheets.google.com/feeds",
             "https://www.googleapis.com/auth/drive",
@@ -31,7 +31,7 @@ agcm = gspread_asyncio.AsyncioGspreadClientManager(get_creds)
 async def upload_praise(agcm, praise_to, praise_from, reason, date, server, chat):
     agc = await agcm.authorize()
 
-    ss = await agc.open("Discord Praise Bot Sheet")
+    ss = await agc.open("Praise sheet")
     print("Spreadsheet URL: https://docs.google.com/spreadsheets/d/{0}".format(ss.id))
     print("Open the URL in your browser to see gspread_asyncio in action!")
 
@@ -64,10 +64,11 @@ async def parse_persons(mentions):
 
 
 async def send_notification(server_id, users):
+    message_data = createEmbed(server_id)
     try:
         for user in users:
             logging.info('Trying to send notification to userId:{}, server:{}'.format(user.id, server_id))
-            await user.send(embed=MESSAGE.messages[server_id]["embed"], file=MESSAGE.messages[server_id]["file"])
+            await user.send(embed=message_data['embed'], file=message_data['file'])
             logging.info('Notification sended to userId:{}, server:{}'.format(user.id, server_id))
         return True
     except Exception as e:

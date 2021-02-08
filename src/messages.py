@@ -77,7 +77,8 @@ MESSAGE_DATA = {
                        "n-of-the-commons-stack-trusted-seed-931978625c61)\n**Thank you** for supporting the Commons "
                        "Stack!",
         'color': 0x00FA9A,
-        'file': discord.File('./img/theCommonsStack.png', filename='footer.png')
+        # 'file': discord.File('./img/theCommonsStack.png', filename='footer.png'),
+        'file': './img/theCommonsStack.png'
     },
 }
 
@@ -88,15 +89,7 @@ def createEmbed(server_id):
         description=MESSAGE_DATA[server_id]['description'],
         color=MESSAGE_DATA[server_id]['color'],
     )
-    file = MESSAGE_DATA[server_id]['file']
+    file = discord.File(MESSAGE_DATA[server_id]['file'], filename='footer.png')
     embed.set_image(url="attachment://footer.png")
     embed.set_footer(icon_url="attachment://footer.png")
     return {"embed": embed, "file": file}
-
-
-class EmbedMessage:
-    def __init__(self):
-        self.messages = dict(map(lambda x: (x, createEmbed(x)), MESSAGE_DATA.keys()))
-
-
-MESSAGE = EmbedMessage()
