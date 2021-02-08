@@ -63,19 +63,12 @@ async def parse_persons(mentions):
     return persons
 
 
-async def send_notification(server_id, user):
-    logging.info('Trying to send notification to userId:{}, server:{}'.format(user.id, server_id))
-    embed = discord.Embed(
-        title=MESSAGE[server_id]['title'],
-        description=MESSAGE[server_id]['description'],
-        color=MESSAGE[server_id]['color'],
-    )
-    file = MESSAGE[server_id]['file']
-    embed.set_image(url="attachment://footer.png")
-    embed.set_footer(icon_url="attachment://footer.png")
+async def send_notification(server_id, users):
     try:
-        await user.send(embed=embed, file=file)
-        logging.info('Notification sended to userId:{}, server:{}'.format(user.id, server_id))
+        for user in users:
+            logging.info('Trying to send notification to userId:{}, server:{}'.format(user.id, server_id))
+            await user.send(embed=MESSAGE.messages[server_id]["embed"], file=MESSAGE.messages[server_id]["file"])
+            logging.info('Notification sended to userId:{}, server:{}'.format(user.id, server_id))
         return True
     except Exception as e:
         logging.error('Failed to send notification. Exception:{}'.format(e))
@@ -113,17 +106,19 @@ async def send(ctx, *content: commands.clean_content(use_nicknames=False)):
     logging.info('Reason found. reason: {}'.format(reason))
 
     status = True
+    users = []
     for user_id, username in persons.items():
         try:
             logging.info('Trying to upload praise data. User={}, reason={}, server={}, channel={}, admin={}'.format(
                 username, reason, server, channel, author))
             await upload_praise(agcm, username, author, reason, now, server, channel)
             logging.info('Praise date uploaded for user={}'.format(username))
+            users.append(bot.get_user(user_id))
         except Exception as e:
             logging.warning('Failed to upload Praise data for user={}. Exception:{}'.format(username, e))
             status = False
-        user = bot.get_user(user_id)
-        await send_notification(server_id, user)
+    if not await send_notification(server_id, users):
+        status = False
     if status:
         logging.info('Admin {} successfully praised users [{}]'.format(author, persons))
         await ctx.message.add_reaction('✅')

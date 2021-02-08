@@ -1,6 +1,6 @@
 import discord
 
-MESSAGE = {
+MESSAGE_DATA = {
     # The Commons Stack
     776352358832930816: {
         'title': "Congratulations! You've been dished Praise!",
@@ -80,3 +80,23 @@ MESSAGE = {
         'file': discord.File('./img/theCommonsStack.png', filename='footer.png')
     },
 }
+
+
+def createEmbed(server_id):
+    embed = discord.Embed(
+        title=MESSAGE_DATA[server_id]['title'],
+        description=MESSAGE_DATA[server_id]['description'],
+        color=MESSAGE_DATA[server_id]['color'],
+    )
+    file = MESSAGE_DATA[server_id]['file']
+    embed.set_image(url="attachment://footer.png")
+    embed.set_footer(icon_url="attachment://footer.png")
+    return {"embed": embed, "file": file}
+
+
+class EmbedMessage:
+    def __init__(self):
+        self.messages = dict(map(lambda x: (x, createEmbed(x)), MESSAGE_DATA.keys()))
+
+
+MESSAGE = EmbedMessage()
