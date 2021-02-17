@@ -34,7 +34,7 @@ MESSAGE_DATA = {
     },
 
     # Token Engineering Commons
-    776352494992883722: {
+    810180621930070088: {
         'title': "Congratulations! You've been dished Praise!",
         'description': "Your contribution to the Token Engineering community has been recognized [in our Discord "
                        "Server](https://discord.gg/cBnSkCAXAb). This Praise will become TE Commons Impact Hours "
