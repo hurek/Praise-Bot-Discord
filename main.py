@@ -32,7 +32,7 @@ agcm = gspread_asyncio.AsyncioGspreadClientManager(get_creds)
 async def upload_praise(agcm, praise_to, praise_from, reason, date, server, chat):
     agc = await agcm.authorize()
 
-    ss = await agc.open("Discord Praise Bot Sheet")
+    ss = await agc.open("GivethPraise")
     print("Spreadsheet URL: https://docs.google.com/spreadsheets/d/{0}".format(ss.id))
     zero_ws = await ss.get_worksheet(0)
     await zero_ws.append_row([praise_to, praise_from, reason, server, date, chat])

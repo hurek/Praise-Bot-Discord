@@ -64,6 +64,18 @@ MESSAGE_DATA = {
         'file': './img/cadCad.png',
     },
 
+    # Giveth
+    679428761438912522: {
+        'title': "Congratulations! You've been dished Praise!",
+        'description': "You did something amazing that contributes to the values and goals of Giveth. Thank you friend!"
+                       "\nYour contribution has been recognised [in our Discord Server](https://discord.gg/xpb7rNpWdr)."
+                       "\n\nFor now - your praise is recorded in our master spreadsheet, but soon your praise will be "
+                       "converted\n" "into our upcoming GIV token.\n\nBe sure to follow updates on this and other "
+                       "Giveth initiatives on our discord server, twitter and medium.",
+        'color': 0x2E033F,
+        'file': './img/givethio.png'
+    },
+
     # Bot Training Ground
     764797633478787074: {
         'title': "Congratulations! You've been dished Praise!",
