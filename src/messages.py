@@ -43,7 +43,7 @@ MESSAGE_DATA = {
         'title': "Congratulations! You've been dished Praise!",
         'description': "\n[__**View your praise on {}**__]({})\n\n"
                        "Your contribution to the Token Engineering community has been recognized [in our Discord "
-                       "Server](https://discord.gg/cBnSkCAXAb). This Praise will become TE Commons Impact Hours "
+                       "Server](https://discord.gg/NKMZGTXQz2). This Praise will become TE Commons Impact Hours "
                        "representing your impact on the Cultural Build, and TEC Impact Hours will become TEC Tokens "
                        "once the TE Commons Hatches!\n\nYou can learn more about Impact Hours on our [Medium Post "
                        "about it](https://medium.com/token-engineering-commons/how-to-earn-tec-tokens-now-an-inside-"
