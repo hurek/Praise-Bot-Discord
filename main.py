@@ -9,14 +9,14 @@ from src.configs import TOKEN
 from src.messages import createEmbed
 
 bot = commands.Bot(command_prefix='!')
-logging.basicConfig(filename='praise.log', level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s',)
+logging.basicConfig(filename='praise.log', level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
 
 
 def get_creds():
     # To obtain a service account JSON file, follow these steps:
     # https://gspread.readthedocs.io/en/latest/oauth2.html#for-bots-using-service-account
     return ServiceAccountCredentials.from_json_keyfile_name(
-        "src/creds.json",
+        "src/admin_creds.json",
         [
             "https://spreadsheets.google.com/feeds",
             "https://www.googleapis.com/auth/drive",
@@ -32,7 +32,7 @@ agcm = gspread_asyncio.AsyncioGspreadClientManager(get_creds)
 async def upload_praise(agcm, praise_to, praise_from, reason, date, server, chat):
     agc = await agcm.authorize()
 
-    ss = await agc.open("Praise sheet")
+    ss = await agc.open("Discord Praise Bot Sheet")
     print("Spreadsheet URL: https://docs.google.com/spreadsheets/d/{0}".format(ss.id))
     zero_ws = await ss.get_worksheet(0)
     await zero_ws.append_row([praise_to, praise_from, reason, server, date, chat])
@@ -61,22 +61,21 @@ async def parse_persons(mentions):
     return persons
 
 
-async def send_notification(server_id, users, channel, message_link):
-        for user in users:
-            logging.info('Trying to send notification to userId:{}, server:{}'.format(user.id, server_id))
+async def send_notification(server_id, users, message_link):
+    for user in users:
+        logging.info('Trying to send notification to userId:{}, server:{}'.format(user.id, server_id))
 
-            try:
-                message_data = createEmbed(server_id, message_link)
-                await user.send(embed=message_data['embed'], file=message_data['file']);
-                logging.info('DM notification sended to userId:{}, server:{}'.format(user.id, server_id))
-            except Exception as e:
-                if e.code == 50007:
-                    message_data = createEmbed(server_id, message_link)
-                    await channel.send("{}".format(user.mention), embed=message_data['embed'], file=message_data['file'])
-                else:
-                    logging.error('Failed to send notification. Exception:{}'.format(e))
-                    return False
-        return True
+        try:
+            message_data = createEmbed(server_id, message_link)
+            await user.send(embed=message_data['embed'], file=message_data['file'])
+            logging.info('DM notification sended to userId:{}, server:{}'.format(user.id, server_id))
+        except Exception as e:
+            if e.code == 50007:
+                continue
+            else:
+                logging.error('Failed to send notification. Exception:{}'.format(e))
+                return False
+    return True
 
 
 @commands.has_any_role('Praise Giver')
@@ -95,7 +94,6 @@ async def send(ctx, *content: commands.clean_content(use_nicknames=False)):
     server_id = ctx.message.guild.id
     message_link = ctx.message.jump_url
     channel = ctx.message.channel.name
-    channelObj = ctx.message.channel
     now = date.today().strftime("%b-%d-%Y")
 
     logging.info('Trying to dish Praise. admin={}, server={}, channel={}'.format(author, server, channel))
@@ -123,13 +121,16 @@ async def send(ctx, *content: commands.clean_content(use_nicknames=False)):
         except Exception as e:
             logging.warning('Failed to upload Praise data for user={}. Exception:{}'.format(username, e))
             status = False
-    if not await send_notification(server_id, users, channelObj, message_link):
+
+    if not await send_notification(server_id, users, message_link):
         status = False
+
     if status:
         logging.info('Admin {} successfully praised users [{}]'.format(author, persons))
         await ctx.message.add_reaction('✅')
     else:
         logging.warning('The admin {} failed to praise one or more users. Users [{}]'.format(author, persons))
         await ctx.message.add_reaction('⚠️')
+
 
 bot.run(TOKEN)
