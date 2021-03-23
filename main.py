@@ -56,7 +56,7 @@ async def praise_for(data, mentions):
 async def parse_persons(mentions):
     persons = {}
     for i in mentions:
-        person = "@" + i.name + '#' + i.discriminator
+        person = i.name + '#' + i.discriminator
         persons[i.id] = person
     return persons
 
@@ -89,7 +89,7 @@ async def log(ctx):
 @commands.has_any_role('Praise Giver')
 @bot.command(name='praise')
 async def send(ctx, *content: commands.clean_content(use_nicknames=False)):
-    author = '@' + ctx.message.author.name + '#' + ctx.message.author.discriminator
+    author = ctx.message.author.name + '#' + ctx.message.author.discriminator
     server = ctx.message.guild.name
     server_id = ctx.message.guild.id
     message_link = ctx.message.jump_url
