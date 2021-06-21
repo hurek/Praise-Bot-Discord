@@ -60,7 +60,7 @@ class PraiseScrape(commands.Cog):
         await ctx.send("Praise written!")
         await ctx.send(
             f"Praise written! Here's all of the Praise since {(datetime.now() - after).days} days ago",
-            file = File(f'praise_{ctx.guild.id}.csv', '{ctx.guild.name} praise.csv')
+            file = File(f'praise_{ctx.guild.id}.csv', f'{ctx.guild.name} praise.csv')
         )
     @get_praise.error
     async def get_praise_error(self, ctx: Context, error):
