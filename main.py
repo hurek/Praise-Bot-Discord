@@ -15,6 +15,9 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 logging.basicConfig(filename='praise.log', level=logging.INFO, format='%(asctime)s %(levelname)s:%(message)s')
 
 
+#load scrape_praise extension
+bot.load_extension('ext.scrape_praise')
+
 def get_creds():
     # To obtain a service account JSON file, follow these steps:
     # https://gspread.readthedocs.io/en/latest/oauth2.html#for-bots-using-service-account
