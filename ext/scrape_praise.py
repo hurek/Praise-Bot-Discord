@@ -1,5 +1,6 @@
 import re
 import csv
+import logging
 
 from asyncio import sleep
 from datetime import datetime, timedelta
@@ -8,6 +9,8 @@ from discord import utils, File
 from discord.ext import commands
 from discord.ext.commands import Context
 from discord.errors import Forbidden, HTTPException
+
+log = logging.getLogger(__name__)
 
 class PraiseScrape(commands.Cog):
     """Commands for scraping old praise from the server"""
@@ -36,14 +39,14 @@ class PraiseScrape(commands.Cog):
                         for person in msg.mentions:
                             clean_msgs.append(
                                 [
-                                    person.name + "#" + person.discrimator,
+                                    person.name + "#" + person.discriminator,
                                     msg.author.name + "#" + msg.author.discriminator,
                                     re.sub(r'(<@).*?>', '', utils.escape_mentions(msg.content)[8:]).strip().replace('\n', ' '),
                                     msg.created_at.strftime("%b-%d-%Y"),
                                     msg.channel.name
                                 ]
                             )
-                            print(f'Adding praise for: {person.name}')
+                            log.info(f'Adding praise for: {person.name}')
             except Forbidden:
                 await ctx.send(f"Missing perms... Skipping channel - {channel.name}")
                 continue
@@ -53,12 +56,12 @@ class PraiseScrape(commands.Cog):
         with open(f"praise_{ctx.guild.id}.csv", 'w') as f:
             try:
                 writer = csv.writer(f)
-                print('Writing Praise...')
+                log.info('Writing Praise...')
                 writer.writerows(clean_msgs)
             except Exception as e:
-                print(f"Error in writing Praise: {e}")
+                log.error(f"Error in writing Praise: {e}")
 
-            print("Praise successfully written!")
+            log.info("Praise successfully written!")
         await ctx.send("Praise written!")
         await ctx.send(
             f"Praise written! Here's all of the Praise since {(datetime.now() - after).days} days ago",
@@ -68,7 +71,7 @@ class PraiseScrape(commands.Cog):
     async def get_praise_error(self, ctx: Context, error):
         if isinstance(error.original, HTTPException):
             await ctx.send("An error occured, the date format might be wrong.")
-        print(f"An error occured\n{error}")
+        log.error(f"An error occured\n{error}")
 
 def setup(bot):
     bot.add_cog(PraiseScrape(bot))
