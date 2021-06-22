@@ -47,6 +47,8 @@ class PraiseScrape(commands.Cog):
             except Forbidden:
                 await ctx.send(f"Missing perms... Skipping channel - {channel.name}")
                 continue
+            else:
+                continue
 
         with open(f"praise_{ctx.guild.id}.csv", 'w') as f:
             try:
