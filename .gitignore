@@ -4,3 +4,5 @@ src/creds.json
 src/admin_creds.json
 src/configs.py
 *.log
+__pycache__
+praise_*.csv
