@@ -21,7 +21,7 @@ class PraiseAudit(commands.Cog):
 
     @commands.command()
     async def praise_audit(self, ctx: Context, after: str = None):
-        await ctx.send(f'Fetching all Praise from {ctx.guild.name}...')
+        await ctx.send(f'Fetching all the Praise from {ctx.guild.name} for the Audit...')
 
         if after:
             dates = [int(char) for char in after.split('-')]
@@ -31,17 +31,43 @@ class PraiseAudit(commands.Cog):
             after=ctx.guild.created_at
 
         clean_msgs = [["To", "From", "Reason for Dishing", "Date", "Server", "Room"]]
-        msg_logs = OrderedDict()
+        msg_logs = dict()
         praise_duration = f"from {after.strftime('%b-%d-%Y')}"
+        # Ignore these channels, to reduce API calls
+        # TODO: Re-implement this list to be more DRY, and be located in a config file
+        skip_channels = [
+            810183289863798815, # join-here (TEC)
+            831938823172653076, # announcements (TEC)
+            810180622336262197, # tec-tokenholders
+            810180622966325296, # ECOSYSTEM
+            810180622966325291, # ECOSYSTEM
+            810180622966325292, # ECOSYSTEM
+            810180622966325293, # ECOSYSTEM
+            810180622966325294, # ECOSYSTEM
+            810180622966325295, # ECOSYSTEM
+            857623810455109692, # ECOSYSTEM
+            778081852492873758, # rules (CS)
+            780557396778549330, # announcements (CS)
+            824917827831595028, # claim-a-role (CS)
+            778081852492873759, # moderator-only (CS)
+            778085977125158922, # system-messages (CS)
+            801882792942239818  # praise-testing (CS)
+        ]
 
         await ctx.send(f"Attempting to get praise {praise_duration}")
         for channel in ctx.guild.text_channels:
-            await sleep(5)
-            try:
-                log.info(f"Attempting to get praise in {channel.name} {praise_duration}")
-                await ctx.send("Attemting to get praise in {channel.name}")
 
-                async for msg in channel.hostory(after=after, limit=None):
+            await sleep(5)
+
+            try:
+                if channel.id in skip_channels:
+                    await ctx.send(f"Skipping {channel.name}")
+                    log.info(f"Skipping {channel.name} from praise-audit")
+                else:
+                    await ctx.send(f"Attempting to get praise in {channel.name}")
+                    log.info(f"Attempting to get praise in {channel.name} {praise_duration}")
+
+                async for msg in channel.history(after=after, limit=None):
                     if msg.content.startswith('!praise'):
                         for person in msg.mentions:
                             timestamp = msg.created_at.strftime("%b-%d-%Y")
@@ -49,7 +75,7 @@ class PraiseAudit(commands.Cog):
                                 person.name + "#" + person.discriminator,
                                 msg.author.name + "#" + msg.author.discriminator,
                                 re.sub(r'(<@).*?>', '', utils.escape_mentions(msg.content)[8:]).strip().replace('\n', ' '),
-                                msg.created_at.strftime("%b-%d-%Y"),
+                                timestamp,
                                 msg.guild.name,
                                 msg.channel.name
                             ]
@@ -64,8 +90,8 @@ class PraiseAudit(commands.Cog):
             else:
                 continue
 
-        for msg_log in msg_logs.values():
-            for msg_data in msg_log:
+        for date in sorted(msg_logs.keys(), key=lambda x: datetime.strptime(x, '%b-%d-%Y')):
+            for msg_data in msg_logs[date]:
                 clean_msgs.append(msg_data)
 
         with open(f"praise_audit_{ctx.guild.id}.csv", 'w') as f:
