@@ -31,7 +31,7 @@ class PraiseAudit(commands.Cog):
             # praise from server creation date
             after = ctx.guild.created_at
 
-        clean_msgs = [["To", "From", "Reason for Dishing", "Date", "Server", "Room"]]
+        clean_msgs = [["To", "From", "Reason for Dishing", "Server", "Date", "Room"]]
         msg_logs = dict()
         praise_duration = f"from {after.strftime('%b-%d-%Y')}"
         # Ignore these channels, to reduce API calls
@@ -84,8 +84,8 @@ class PraiseAudit(commands.Cog):
                                 )
                                 .strip()
                                 .replace("\n", " "),
-                                timestamp,
                                 msg.guild.name,
+                                timestamp,
                                 msg.channel.name,
                             ]
                             if timestamp not in msg_logs:
