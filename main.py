@@ -17,6 +17,8 @@ logging.basicConfig(filename='praise.log', level=logging.INFO, format='%(asctime
 
 #load scrape_praise extension
 bot.load_extension('ext.scrape_praise')
+#loade praise_audit extension
+bot.load_extension('ext.praise_audit')
 
 def get_creds():
     # To obtain a service account JSON file, follow these steps:

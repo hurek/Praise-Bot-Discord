@@ -28,7 +28,7 @@ class PraiseScrape(commands.Cog):
             # praise from 20 days ago from now
             after=datetime.now() - timedelta(days=20)
 
-        clean_msgs = [["To", "From", "Reason for Dishing", "Date", "Room"]]
+        clean_msgs = [["To", "From", "Reason for Dishing", "Date", "Server", "Room"]]
         for channel in ctx.guild.text_channels:
             await sleep(5)
             try:
@@ -43,6 +43,7 @@ class PraiseScrape(commands.Cog):
                                     msg.author.name + "#" + msg.author.discriminator,
                                     re.sub(r'(<@).*?>', '', utils.escape_mentions(msg.content)[8:]).strip().replace('\n', ' '),
                                     msg.created_at.strftime("%b-%d-%Y"),
+                                    msg.guild.name,
                                     msg.channel.name
                                 ]
                             )
